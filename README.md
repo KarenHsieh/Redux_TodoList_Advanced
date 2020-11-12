@@ -1,2 +1,2 @@
-# Redux_TodoList_Advanced
+# Redux_TodoList
 Created with CodeSandbox
