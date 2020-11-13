@@ -1,12 +1,5 @@
 
-// const initialState = {
-//   inputValue: '',
-//   items: ['default']
-// }
-
 function reducer(state = {}, action) {
-
-  
 
   switch(action.type) {
     case 'ADD_ITEM':
@@ -14,10 +7,37 @@ function reducer(state = {}, action) {
         ...state,
         items: [...state.items, action.payload.inputValue]
       }
-    // case 'UPDATE_TEXT':
-    //   return {
-    //     inputValue: state.inputValue
-    //   }
+    case 'DELETE_ITEM':
+      const deleteIndex = action.payload.deleteIndex;
+      const newItems = state.items.filter(function(item, index){
+        if(index !== deleteIndex) {
+          return item;
+        }
+      })
+      
+      return {
+        ...state,
+        items: newItems
+      }
+    case 'UPDATE_ITEM':
+      const updateIndex = action.payload.updateIndex;
+      console.log('updateIndex', updateIndex);
+      const editValue = state.editValue;
+      console.log('editValue', editValue);
+      
+      const updatedItems = state.items.map(function(item, index){
+        if(index === updateIndex) {
+          return editValue;
+        }
+        return item;
+      })
+      
+      console.log(updatedItems);
+      
+      return {
+        ...state,
+        items: updatedItems
+      }
     default:
         return state;
   }
