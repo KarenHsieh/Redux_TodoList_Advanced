@@ -4,7 +4,16 @@ import EditField from './EditField';
 class List extends React.Component {
    
   render() {
-    const { items, handleDelete, handleEditChange, editValue, handleAction, isEditMode } = this.props;
+    const { 
+      items,
+      handleDelete,
+      handleEditChange, 
+      editValue,
+      handleSave,
+      clickReviseBtn,
+      editState 
+    } = this.props;
+    
     return (
       <ul>
         {
@@ -14,15 +23,21 @@ class List extends React.Component {
                 <li key={index}>
                   {item}
                   {' '}
-                  <button type='button' onClick={ () => handleDelete(index) }>刪除</button> 
+
+                  <button type='button'
+                    onClick={ () => handleDelete(index) }>
+                  刪除
+                  </button>
+
                   { ' ' }
                   <EditField 
-                    key={index}
-                    index={index} 
-                    handleAction={ handleAction }
-                    editValue={editValue}
+                    key={ index }
+                    index={ index } 
+                    handleSave={ handleSave }
+                    clickReviseBtn={ clickReviseBtn }
+                    editValue={ editValue }
                     handleEditChange={ handleEditChange }
-                    isEditMode={isEditMode}
+                    isEditMode={ editState[index] }
                   />
                 </li>
               );

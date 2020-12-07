@@ -13,15 +13,23 @@ class Todo extends React.Component {
       inputValue: '',
       items: [],
       editValue: '',
-      isEditMode: false
+      isEditMode: false,
+      editState: []
     };
   }
 
   handleClick = () => {
-    this.props.addItems( { inputValue: this.state.inputValue } );
+    this.props.addItems({ 
+      inputValue: this.state.inputValue 
+    });
+
+    this.setState({
+      editState: [...this.state.editState, false]
+    });
   }
 
   handleChange = (e) => {
+    
     const inputValue = e.target.value;
     this.setState({
       inputValue: inputValue
@@ -30,20 +38,59 @@ class Todo extends React.Component {
 
   handleDelete = (index) => {
 
+    const newEditState = this.state.editState.filter(function(state, deleteIndex){
+        return (deleteIndex !== index);
+    })
+
+    this.setState({
+      editState: newEditState
+    });
+
     this.props.deleteItems( { deleteIndex: index } );
   }
 
-  // 按下儲存或修改
-  handleAction = (index) => {
-    if(this.state.isEditMode) {
-      this.props.updateItem( { updateIndex: index } );
-    }
+  // 按下儲存
+  handleSave = (index) => {
+
+    const oriState = this.state.editState;
+
+    // 更改開關狀態
+    const newState = oriState.map(function (value, key) {
+      return (key === index) ? !value : false ;
+    })
+    
+    // 更改資料
+    this.props.updateItem({
+      updateIndex: index,
+      editValue: this.state.editValue
+    })
 
     this.setState({
-      isEditMode: !this.state.isEditMode
+      editState: newState
     });
-    
+
   }
+
+  // 按下修改
+  clickReviseBtn = (index) => {
+
+    const oriState = this.state.editState;
+    
+    // 更改開關狀態
+    const newState = oriState.map(function (value, key) {
+      return (key === index) ? !value : false ;
+    })
+
+    this.setState({
+      editState: newState
+    }, () => {
+      this.setState({
+        editValue: ''
+      })
+    });
+
+  }
+
 
   // 修改輸入框change時
   handleEditChange = (e) => {
@@ -67,10 +114,11 @@ class Todo extends React.Component {
         <List 
           items={ this.props.items } 
           handleDelete={this.handleDelete} 
-          handleAction={this.handleAction} 
+          handleSave={this.handleSave} 
+          clickReviseBtn={this.clickReviseBtn}
           editValue={this.state.editValue}
           handleEditChange={this.handleEditChange}
-          isEditMode={this.state.isEditMode}
+          editState={this.state.editState}
         />
       </div>
     );

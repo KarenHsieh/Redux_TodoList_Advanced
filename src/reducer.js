@@ -14,30 +14,27 @@ function reducer(state = {}, action) {
           return item;
         }
       })
-      
+
       return {
         ...state,
         items: newItems
       }
     case 'UPDATE_ITEM':
-      const updateIndex = action.payload.updateIndex;
-      console.log('updateIndex', updateIndex);
-      const editValue = state.editValue;
-      console.log('editValue', editValue);
-      
+      const data = action.payload;
+      const {updateIndex, editValue} = data;
+    
       const updatedItems = state.items.map(function(item, index){
-        if(index === updateIndex) {
+        if(editValue !== '' && index === updateIndex) {
           return editValue;
         }
         return item;
       })
       
-      console.log(updatedItems);
-      
       return {
         ...state,
         items: updatedItems
       }
+      
     default:
         return state;
   }
