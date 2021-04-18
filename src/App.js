@@ -1,15 +1,14 @@
 import React from "react";
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-import Todo from './component/Todo';
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import Todo from "./component/Todo";
 
-
-import reducer from './reducer';
+import reducer from "./reducer";
 
 const initialState = {
-  inputValue: '',
+  inputValue: "",
   items: []
-}
+};
 
 const store = createStore(reducer, initialState);
 
